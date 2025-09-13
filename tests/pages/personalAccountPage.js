@@ -10,6 +10,7 @@ export class PersonalAccountPage {
     );
     this.logout = this.page.getByText("Logout");
     this.profile = this.page.getByLabel("Profile");
+    this.menuUsers = this.page.getByRole("menuitem", { name: "Users" });
   }
 
   async checkWelcomText() {
@@ -22,5 +23,9 @@ export class PersonalAccountPage {
 
   async clickLogout() {
     await this.logout.click();
+  }
+
+  async clickMenuUsers() {
+    await this.menuUsers.click();
   }
 }
