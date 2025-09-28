@@ -14,25 +14,6 @@ export class PersonalAccountPage {
     this.menuStatuses = this.page.getByRole("menuitem", {
       name: "Task statuses",
     });
-  }
-
-  async checkWelcomText() {
-    await expect(this.welcomText).toBeVisible();
-  }
-
-  async clickProfile() {
-    await this.profile.click();
-  }
-
-  async clickLogout() {
-    await this.logout.click();
-  }
-
-  async clickMenuUsers() {
-    await this.menuUsers.click();
-  }
-
-  async clickMenuItem() {
-    await this.menuStatuses.click();
+    this.menuLabels = this.page.getByRole("menuitem", { name: "Labels" });
   }
 }

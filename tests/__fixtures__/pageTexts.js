@@ -17,8 +17,10 @@ const pageTexts = {
   editUserPassword: "Passwordrdit",
   createStatusName: "TestName",
   createStatusSlug: "TestSlug",
+  createLabelsName: "TestLabel",
   editStatusName: "TestNameEdit",
   editStatusSlug: "TestSlugEdit",
+  editLabelsName: "TestLabelEdit",
   userForDelete1: "1 john@google",
   userForDelete1: "2 jack@yahoo.",
   statusForDelete1: "1 Draft draft",
@@ -27,6 +29,9 @@ const pageTexts = {
   userForDelete1: "1 john@google",
   userForDelete2: "2 jack@yahoo.",
   userForDelete3: "3 jane@gmail.",
+  labelsForDelete1: "1 bug",
+  labelsForDelete2: "2 feature",
+  labelsForDelete3: "3 enhancement",
 };
 
 export default pageTexts;

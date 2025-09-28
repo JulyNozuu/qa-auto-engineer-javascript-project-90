@@ -20,7 +20,7 @@ test("create status item", async ({ page }) => {
   await inputField(loginPage.userName, pageTexts.userName);
   await inputField(loginPage.password, pageTexts.password);
   await click(loginPage.signIn);
-  await personalAccountPage.clickMenuItem();
+  await click(personalAccountPage.menuStatuses);
   const statusPage = new TaskStatatusesPage(page);
   await click(statusPage.createStatusButton);
   await checkField(statusPage.createStatusName);
@@ -38,7 +38,7 @@ test("status list", async ({ page }) => {
   await inputField(loginPage.userName, pageTexts.userName);
   await inputField(loginPage.password, pageTexts.password);
   await click(loginPage.signIn);
-  await personalAccountPage.clickMenuItem();
+  await click(personalAccountPage.menuStatuses);
   const statusPage = new TaskStatatusesPage(page);
   await statusPage.checkStatuses(page);
 });
@@ -50,7 +50,7 @@ test("editing form status", async ({ page }) => {
   await inputField(loginPage.userName, pageTexts.userName);
   await inputField(loginPage.password, pageTexts.password);
   await click(loginPage.signIn);
-  await personalAccountPage.clickMenuItem();
+  await click(personalAccountPage.menuStatuses);
   const statusPage = new TaskStatatusesPage(page);
   await openCard(page, "1");
   await checkField(statusPage.createStatusName);
@@ -65,7 +65,7 @@ test("edit status", async ({ page }) => {
   await inputField(loginPage.userName, pageTexts.userName);
   await inputField(loginPage.password, pageTexts.password);
   await click(loginPage.signIn);
-  await personalAccountPage.clickMenuItem();
+  await click(personalAccountPage.menuStatuses);
   const statusPage = new TaskStatatusesPage(page);
   await openCard(page, "1");
   await inputField(statusPage.createStatusName, pageTexts.editStatusName);
@@ -82,7 +82,7 @@ test("edit status from create", async ({ page }) => {
   await inputField(loginPage.userName, pageTexts.userName);
   await inputField(loginPage.password, pageTexts.password);
   await click(loginPage.signIn);
-  await personalAccountPage.clickMenuItem();
+  await click(personalAccountPage.menuStatuses);
   const statusPage = new TaskStatatusesPage(page);
   await click(statusPage.createStatusButton);
   await inputField(statusPage.createStatusName, pageTexts.createStatusName);
@@ -104,7 +104,7 @@ test("delete status", async ({ page }) => {
   await inputField(loginPage.userName, pageTexts.userName);
   await inputField(loginPage.password, pageTexts.password);
   await click(loginPage.signIn);
-  await personalAccountPage.clickMenuItem();
+  await click(personalAccountPage.menuStatuses);
   const statusPage = new TaskStatatusesPage(page);
   await checkCheckbox(statusPage.checkStatus1);
   await click(statusPage.deleteButton);
@@ -124,7 +124,7 @@ test("delete all status", async ({ page }) => {
   await inputField(loginPage.userName, pageTexts.userName);
   await inputField(loginPage.password, pageTexts.password);
   await click(loginPage.signIn);
-  await personalAccountPage.clickMenuItem();
+  await click(personalAccountPage.menuStatuses);
   const statusPage = new TaskStatatusesPage(page);
   await checkCheckbox(statusPage.checkAll);
   await checkField(statusPage.itemSelected);
