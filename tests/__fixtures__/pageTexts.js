@@ -1,7 +1,7 @@
 const pageTexts = {
   userName: "test",
   password: "q1w2e3",
-  errorTextLoginPage: "The form is not valid. Please",
+  errorTextLoginPage: "The form is not valid. Please check for errors",
   welcomeTextPersonalAccountPage: "Welcome to the administration",
   createUserEmail: "test@mail.ru",
   createUserFirstName: "Тест",
@@ -15,6 +15,18 @@ const pageTexts = {
   editUserFirstName: "Nameedit",
   editUserLastName: "Lastnameedit",
   editUserPassword: "Passwordrdit",
+  createStatusName: "TestName",
+  createStatusSlug: "TestSlug",
+  editStatusName: "TestNameEdit",
+  editStatusSlug: "TestSlugEdit",
+  userForDelete1: "1 john@google",
+  userForDelete1: "2 jack@yahoo.",
+  statusForDelete1: "1 Draft draft",
+  statusForDelete2: "2 To Review",
+  statusForDelete3: "3 To Be Fixed",
+  userForDelete1: "1 john@google",
+  userForDelete2: "2 jack@yahoo.",
+  userForDelete3: "3 jane@gmail.",
 };
 
 export default pageTexts;
