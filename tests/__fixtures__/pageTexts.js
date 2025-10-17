@@ -32,6 +32,26 @@ const pageTexts = {
   labelsForDelete1: "1 bug",
   labelsForDelete2: "2 feature",
   labelsForDelete3: "3 enhancement",
+  createTasksTitle: "TestTitle",
+  createTasksContent: "TestContent",
+  assigneeTask: "emily@example.com",
+  statusPublished: "Published",
+  labelCritical: "critical",
+  labelBug: "bug",
+  assigneeTaskEdit: "jane@gmail.com",
+  tasksTitleEdit: "TestTitleEdit",
+  tasksContentEdit: "TestContentEdit",
+  statusDraft: "Draft",
+
+  assigneeForFilter: "jane@gmail.com",
+  task1: "Task 1 Description of task 1",
+  task2: "Task 2 Description of task 2",
+  task3: "Task 3 Description of task 3",
+  task4: "Task 4 Description of task 4",
+  task6: "Task 6 Description of task 6",
+  task7: "Task 7 Description of task 7",
+  task10: "Task 10 Description of task 10",
+  task15: "Task 15 Description of task 15",
 };
 
 export default pageTexts;

@@ -15,5 +15,6 @@ export class PersonalAccountPage {
       name: "Task statuses",
     });
     this.menuLabels = this.page.getByRole("menuitem", { name: "Labels" });
+    this.menuTasks = this.page.getByRole("menuitem", { name: "Tasks" });
   }
 }
