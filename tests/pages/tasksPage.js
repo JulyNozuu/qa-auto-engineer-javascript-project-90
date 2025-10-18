@@ -18,10 +18,14 @@ export class TasksPage {
     this.successSave = this.page.getByText("Element created");
     this.successUpdate = this.page.getByText("Element updated");
     this.successDelete = this.page.getByText("Element deleted");
-
-    this.editTask1 = this.page
-      .getByRole("button", { name: pageTexts.task1 })
-      .getByLabel("Edit");
+    (this.filterAssignee = this.page.getByRole("combobox", {
+      name: "Assignee",
+    })),
+      (this.filterStatus = this.page.getByRole("combobox", { name: "Status" })),
+      (this.filterLabel = this.page.getByRole("combobox", { name: "Label" })),
+      (this.editTask1 = this.page
+        .getByRole("button", { name: pageTexts.task1 })
+        .getByLabel("Edit"));
 
     this.editTask2 = this.page
       .getByRole("button", { name: pageTexts.task2 })
@@ -56,7 +60,10 @@ export class TasksPage {
     });
     this.deleteButton = this.page.getByLabel("Delete");
     this.undoButton = this.page.getByRole("button", { name: "Undo" });
-    this.сlearValue = this.page.getByLabel("Clear value");
+    this.valueAssignee = this.page.getByRole("combobox", {
+      name: pageTexts.valueAssignee,
+    });
+    this.сlearValue = this.page.getByRole('option', { name: pageTexts.clearValue })
   }
 
   async checkTasks(page) {

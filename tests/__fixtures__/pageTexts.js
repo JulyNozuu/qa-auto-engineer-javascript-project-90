@@ -44,6 +44,8 @@ const pageTexts = {
   statusDraft: "Draft",
 
   assigneeForFilter: "jane@gmail.com",
+  valueAssignee: "Assignee jane@gmail.com",
+  clearValue: "Clear value",
   task1: "Task 1 Description of task 1",
   task2: "Task 2 Description of task 2",
   task3: "Task 3 Description of task 3",

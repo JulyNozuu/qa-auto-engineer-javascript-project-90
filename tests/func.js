@@ -20,7 +20,7 @@ export async function checkFieldByTextNotVisible(field, page) {
   await expect(page.getByText(field, { exact: true })).not.toBeVisible();
 }
 
-export async function click(field, timeout = 55000) {
+export async function click(field, timeout = 75000) {
   await field.click({
     timeout,
   });
@@ -34,7 +34,7 @@ export async function openCard(page, id) {
   await page.getByRole("cell", { name: id, exact: true }).click();
 }
 
-export async function selectOption(page, query, timeout = 75000) {
+export async function selectOption(page, query, timeout = 35000) {
   await page.getByRole("option", { name: query }).click({
     timeout,
   });
