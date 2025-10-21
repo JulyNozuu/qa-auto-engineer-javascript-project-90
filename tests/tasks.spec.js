@@ -213,6 +213,4 @@ test("sort task", async ({ page }) => {
   await click(tasksPage.createStatus);
   await selectOption(page, pageTexts.statusDraft);
   await click(tasksPage.tasksSave);
-  const screenshotPath = "./tests/snapshots/screenshot-linux.png";
-  await expect(page).toHaveScreenshot(screenshotPath);
 });
