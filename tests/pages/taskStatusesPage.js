@@ -1,8 +1,7 @@
 // pages/taskStatatusesPage.js
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 import taskStatuses from "../__fixtures__/taskStatuses";
-import { checkCheckbox } from "../func";
 
 export class TaskStatatusesPage {
   constructor(page) {

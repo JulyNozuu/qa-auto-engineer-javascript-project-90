@@ -1,8 +1,6 @@
 // pages/tasksPage.js
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
 import tasks from "../__fixtures__/tasks";
-import taskStatuses from "../__fixtures__/taskStatuses";
-import { checkCheckbox } from "../func";
 import pageTexts from "../__fixtures__/pageTexts";
 
 export class TasksPage {
@@ -63,7 +61,9 @@ export class TasksPage {
     this.valueAssignee = this.page.getByRole("combobox", {
       name: pageTexts.valueAssignee,
     });
-    this.сlearValue = this.page.getByRole('option', { name: pageTexts.clearValue })
+    this.сlearValue = this.page.getByRole("option", {
+      name: pageTexts.clearValue,
+    });
   }
 
   async checkTasks(page) {

@@ -1,6 +1,5 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage.js";
-import { TaskStatatusesPage } from "./pages/taskStatusesPage.js";
 import { TasksPage } from "./pages/tasksPage.js";
 import pageTexts from "./__fixtures__/pageTexts.js";
 import { PersonalAccountPage } from "./pages/personalAccountPage.js";
@@ -8,10 +7,7 @@ import {
   inputField,
   checkField,
   click,
-  checkFieldByText,
-  checkCheckbox,
   checkFieldByTextNotVisible,
-  openCard,
   selectOption,
   clickSomewhere,
 } from "./func.js";

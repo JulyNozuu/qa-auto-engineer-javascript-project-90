@@ -1,8 +1,6 @@
 // pages/labelsPage.js
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
 import labels from "../__fixtures__/labels";
-import taskStatuses from "../__fixtures__/taskStatuses";
-import { checkCheckbox } from "../func";
 import pageTexts from "../__fixtures__/pageTexts";
 
 export class LabelsPage {

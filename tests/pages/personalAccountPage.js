@@ -1,5 +1,4 @@
 // pages/personalAccountPage.js
-import { test, expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 
 export class PersonalAccountPage {

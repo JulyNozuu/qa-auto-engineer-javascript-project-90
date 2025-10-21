@@ -21,8 +21,6 @@ const pageTexts = {
   editStatusName: "TestNameEdit",
   editStatusSlug: "TestSlugEdit",
   editLabelsName: "TestLabelEdit",
-  userForDelete1: "1 john@google",
-  userForDelete1: "2 jack@yahoo.",
   statusForDelete1: "1 Draft draft",
   statusForDelete2: "2 To Review",
   statusForDelete3: "3 To Be Fixed",
