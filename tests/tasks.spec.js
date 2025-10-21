@@ -192,7 +192,7 @@ test("filter task", async ({ page }) => {
   await checkField(tasksPage.task15);
 });
 
-test("sort task", async ({ page }) => {
+test.only("sort task", async ({ page }) => {
   await page.goto("http://localhost:5173/#/login");
   const loginPage = new LoginPage(page);
   const personalAccountPage = new PersonalAccountPage(page);
@@ -213,7 +213,7 @@ test("sort task", async ({ page }) => {
   await click(tasksPage.createStatus);
   await selectOption(page, pageTexts.statusDraft);
   await click(tasksPage.tasksSave);
-  const screenshotPath = "screenshot.png";
+  const screenshotPath = "./tests/tasks.spec.js-snapshots/screenshot-linux.png";
   await page.screenshot({ path: screenshotPath });
   await expect(page).toHaveScreenshot(screenshotPath);
 });
