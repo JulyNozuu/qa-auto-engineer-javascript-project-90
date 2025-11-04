@@ -1,12 +1,34 @@
-# React + Vite
+# Тестирование Канбан-доски
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Проект реализован а рамках обучения Hexlet.
 
-Currently, two official plugins are available:
+Проект представляет собой Тестирование Канбан-доски.
+В проекте реализована цель по тестированию приложения управления задачами, разработанного с использованием react-admin, с помощью инструмента автоматизации тестирования playwright. Тестирование направлено на обеспечение корректной работы основных функций приложения, таких как создание, редактирование, удаление и перемещение задач, а также авторизация пользователей.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## В проекте протестирвоаны основные функции приложения:
 
-## Expanding the ESLint configuration
+1. Управление задачами: пользователи могут создавать новые задачи, назначать исполнителей, изменять статусы задач (например, "in progress", "draft", "done"), редактировать и удалять задачи.
+2. Управление пользователями: администраторы могут создавать новых пользователей и просматривать список существующих пользователей.
+3. Управление метками: пользователи могут создавать и редактировать метки для задач, такие как "bug", "feature" и т. д.
+4. Управление статусами задач: администраторы могут создавать и редактировать статусы задач, которые определяют колонки на канбан-доске, такие как "draft", "in progress" и т. д.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Для тестирования приложения используется:
+
+- библиотека playwright, которая позволяет автоматизировать взаимодействие с интерфейсом приложения, эмулируя действия пользователя и проверяя корректность работы различных функций.
+- Язык: JavaScript.
+- Версия Node.js v23.1.0.
+
+## Установка:
+
+npm ci
+
+## Запуск тестов:
+
+Запуск приложения Канбан-доски:
+npm run dev
+
+## Запуск тестов:
+
+npx playwright test
+
+[![hexlet-check](https://github.com/JulyNozuu/qa-auto-engineer-javascript-project-90/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/JulyNozuu/qa-auto-engineer-javascript-project-90/actions/workflows/hexlet-check.yml)

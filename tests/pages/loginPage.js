@@ -1,6 +1,7 @@
 // pages/loginPage.js
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
+import { inputField, checkField, click, checkFieldByText } from "../func.js";
 
 export class LoginPage {
   constructor(page) {
@@ -34,7 +35,24 @@ export class LoginPage {
     await this.signIn.click();
   }
 
-  async checkErrorText() {
-    await expect(this.errorText).toBeVisible();
+  async checkLoginForm() {
+    await this.page.goto("http://localhost:5173/#/login");
+    await checkField(this.userName);
+    await checkField(this.password);
+    await checkField(this.signIn);
+  }
+
+  async authorization(name, password) {
+    await this.page.goto("http://localhost:5173/#/login");
+    await inputField(this.userName, name);
+    await inputField(this.password, password);
+    await click(this.signIn);
+  }
+
+  async checkWelcomeText(page) {
+    await checkFieldByText(pageTexts.welcomeTextPersonalAccountPage, page);
+  }
+  async checkErrorText(page) {
+    await checkFieldByText(pageTexts.errorTextLoginPage, page);
   }
 }

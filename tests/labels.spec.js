@@ -1,126 +1,62 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "./pages/loginPage";
-import { LabelsPage } from "./pages/labelsPage";
-import pageTexts from "./__fixtures__/pageTexts";
-import { PersonalAccountPage } from "./pages/personalAccountPage";
-import {
-  inputField,
-  checkField,
-  click,
-  checkFieldByText,
-  checkCheckbox,
-  checkFieldByTextNotVisible,
-  openCard,
-} from "./func.js";
+import { LoginPage } from "./pages/loginPage.js";
+import { LabelsPage } from "./pages/labelsPage.js";
+import pageTexts from "./__fixtures__/pageTexts.js";
+import { PersonalAccountPage } from "./pages/personalAccountPage.js";
+import { checkField, openCard } from "./func.js";
 
-test("create labels", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuLabels);
-  const labelsPage = new LabelsPage(page);
-  await click(labelsPage.createLabelsButton);
-  await checkField(labelsPage.createLabelsName);
-  await inputField(labelsPage.createLabelsName, pageTexts.createLabelsName);
-  await click(labelsPage.statusSave);
-  await checkField(labelsPage.successSave);
+let loginPage;
+let personalAccountPage;
+let labelsPage;
+
+test.beforeEach(async ({ page }) => {
+  loginPage = new LoginPage(page);
+  personalAccountPage = new PersonalAccountPage(page);
+  labelsPage = new LabelsPage(page);
+});
+
+test("create labels", async () => {
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuLabels();
+  await labelsPage.createLabels(pageTexts.createLabelsName);
 });
 
 test("labels list", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuLabels);
-  const labelsPage = new LabelsPage(page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuLabels();
   await labelsPage.checkLabels(page);
 });
 
 test("editing form labels", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuLabels);
-  const labelsPage = new LabelsPage(page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuLabels();
   await openCard(page, "1");
   await checkField(labelsPage.createLabelsName);
   await checkField(labelsPage.saveDeleteButton);
 });
 
 test("edit labels", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuLabels);
-  const labelsPage = new LabelsPage(page);
-  await openCard(page, "1");
-  await inputField(labelsPage.createLabelsName, pageTexts.editLabelsName);
-  await click(labelsPage.statusSave);
-  await checkFieldByText(pageTexts.editLabelsName, page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuLabels();
+  await labelsPage.editLabelsFromList(1, pageTexts.editLabelsName, page);
 });
 
 test("edit labels from create", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuLabels);
-  const labelsPage = new LabelsPage(page);
-  await click(labelsPage.createLabelsButton);
-  await checkField(labelsPage.createLabelsName);
-  await inputField(labelsPage.createLabelsName, pageTexts.createLabelsName);
-  await click(labelsPage.statusSave);
-  await click(labelsPage.showButtonStatusCreate);
-  await click(labelsPage.editButton);
-  await inputField(labelsPage.createLabelsName, pageTexts.editLabelsName);
-  await click(labelsPage.statusSave);
-  await checkFieldByText(pageTexts.editLabelsName, page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuLabels();
+  await labelsPage.createLabels(pageTexts.createLabelsName);
+  await labelsPage.editLabelsFromShow(pageTexts.editLabelsName, page);
 });
 
 test("delete labels", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuLabels);
-  const labelsPage = new LabelsPage(page);
-  await checkCheckbox(labelsPage.checkLabels1);
-  await click(labelsPage.deleteButton);
-  await click(labelsPage.undoButton);
-  await checkFieldByText(pageTexts.labelsForDelete1[0], page);
-  await checkCheckbox(labelsPage.checkLabels2);
-  await checkCheckbox(labelsPage.checkLabels3);
-  await click(labelsPage.deleteButton);
-  await checkFieldByTextNotVisible(pageTexts.labelsForDelete2[0], page);
-  await checkFieldByTextNotVisible(pageTexts.labelsForDelete3[0], page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuLabels();
+  await labelsPage.cancelDeleteLabel(pageTexts.labelsForDelete1, page);
+  await labelsPage.successDeleteLabel(pageTexts.labelsForDelete2, page);
 });
 
-test("delete all labels", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuLabels);
-  const labelsPage = new LabelsPage(page);
-  await checkCheckbox(labelsPage.checkAll);
-  await checkField(labelsPage.labelSelected);
-  await click(labelsPage.deleteButton);
-  await checkField(labelsPage.noLabelsStatus);
+test("delete all labels", async () => {
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuLabels();
+  await labelsPage.allLabelsDelete();
 });

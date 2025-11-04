@@ -4,7 +4,6 @@ import pageTexts from "./__fixtures__/pageTexts";
 import { PersonalAccountPage } from "./pages/personalAccountPage";
 import { UserPage } from "./pages/userPage";
 import {
-  inputField,
   checkField,
   click,
   checkFieldByText,
@@ -12,193 +11,142 @@ import {
   openCard,
   checkFieldByTextNotVisible,
 } from "./func.js";
+let loginPage;
+let personalAccountPage;
+let userPage;
 
-test("application display", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  await checkField(loginPage.userName);
-  await checkField(loginPage.password);
-  await checkField(loginPage.signIn);
+test.beforeEach(async ({ page }) => {
+  loginPage = new LoginPage(page);
+  personalAccountPage = new PersonalAccountPage(page);
+  userPage = new UserPage(page);
+});
+
+test("application display", async () => {
+  await loginPage.checkLoginForm();
 });
 
 test("login", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await checkFieldByText(pageTexts.welcomeTextPersonalAccountPage, page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await loginPage.checkWelcomeText(page);
 });
 
 test("negotive - login", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  await inputField(loginPage.userName, "");
-  await inputField(loginPage.password, "");
-  await click(loginPage.signIn);
-  await checkFieldByText(pageTexts.errorTextLoginPage, page);
-  await inputField(loginPage.userName, "");
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await checkFieldByText(pageTexts.errorTextLoginPage, page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, "");
-  await click(loginPage.signIn);
-  await checkFieldByText(pageTexts.errorTextLoginPage, page);
+  await loginPage.authorization("", "");
+  await loginPage.checkErrorText(page);
+  await loginPage.authorization("", pageTexts.password);
+  await loginPage.checkErrorText(page);
+  await loginPage.authorization(pageTexts.userName, "");
+  await loginPage.checkErrorText(page);
 });
 
 test("logout", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await checkFieldByText(pageTexts.welcomeTextPersonalAccountPage, page);
-  await click(personalAccountPage.profile);
-  await click(personalAccountPage.logout);
-  await checkField(loginPage.userName);
-  await checkField(loginPage.password);
-  await checkField(loginPage.signIn);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await loginPage.checkWelcomeText(page);
+  await personalAccountPage.goToProfile();
+  await personalAccountPage.logout();
+  await loginPage.checkLoginForm();
 });
 
 test("create user", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  const userPage = new UserPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuUsers);
-  await click(userPage.createUserButton);
-  await inputField(userPage.userEmail, pageTexts.createUserEmail);
-  await inputField(userPage.userFirstName, pageTexts.createUserFirstName);
-  await inputField(userPage.userLastName, pageTexts.createUserLastName);
-  await inputField(userPage.userPassword, pageTexts.createUserPassword);
-  await click(userPage.saveButton);
-  await checkFieldByText(pageTexts.createUserTextSuccess, page);
-  await checkFieldByText(pageTexts.createUserShow, page);
-  await checkField(userPage.createUserDeleteButton);
-  await click(userPage.createUserShow);
-  await checkFieldByText(pageTexts.createUserEmail, page);
-  await checkFieldByText(pageTexts.createUserFirstName, page);
-  await checkFieldByText(pageTexts.createUserLastName, page);
-  await checkField(userPage.createUserEditButton);
-  await click(personalAccountPage.menuUsers);
-  await checkFieldByText(pageTexts.createUserEmail, page);
-  await checkFieldByText(pageTexts.createUserFirstName, page);
-  await checkFieldByText(pageTexts.createUserLastName, page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
+  await userPage.createUser(
+    pageTexts.createUserEmail,
+    pageTexts.createUserFirstName,
+    pageTexts.createUserLastName,
+    pageTexts.createUserPassword,
+    page
+  );
+  await userPage.checkCreateUser(page);
+  await userPage.clickShowButton();
+  await userPage.checkUser(
+    pageTexts.createUserEmail,
+    pageTexts.createUserFirstName,
+    pageTexts.createUserLastName,
+    page
+  );
+  await userPage.checkEditButton();
+  await personalAccountPage.goToMenuUsers();
+  await userPage.checkUser(
+    pageTexts.createUserEmail,
+    pageTexts.createUserFirstName,
+    pageTexts.createUserLastName,
+    page
+  );
 });
 
 test("user list", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  const userPage = new UserPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuUsers);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
   await userPage.checkUsers(page);
 });
 
 test("editing form", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  const userPage = new UserPage(page);
-  await click(personalAccountPage.menuUsers);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
   await openCard(page, "1");
-  await checkField(userPage.userEmail);
-  await checkField(userPage.userFirstName);
-  await checkField(userPage.userLastName);
-  await checkField(userPage.userPassword);
-  await checkField(userPage.saveDeleteButton);
+  await userPage.checkUserCreateForm();
+  await userPage.checkSaveDeleteButton();
 });
 
 test("edit user", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  const userPage = new UserPage(page);
-  await click(personalAccountPage.menuUsers);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
   await openCard(page, "1");
-  await inputField(userPage.userEmail, pageTexts.editUserEmail);
-  await inputField(userPage.userFirstName, pageTexts.editUserFirstName);
-  await inputField(userPage.userLastName, pageTexts.editUserLastName);
-  await inputField(userPage.userPassword, pageTexts.editUserPassword);
-  await click(userPage.saveButton);
-  await checkFieldByText(pageTexts.editUserEmail, page);
-  await checkFieldByText(pageTexts.editUserFirstName, page);
-  await checkFieldByText(pageTexts.editUserLastName, page);
+  await userPage.editUser(
+    pageTexts.editUserEmail,
+    pageTexts.editUserFirstName,
+    pageTexts.editUserLastName,
+    pageTexts.editUserPassword
+  );
+  await userPage.checkUser(
+    pageTexts.editUserEmail,
+    pageTexts.editUserFirstName,
+    pageTexts.editUserLastName,
+    page
+  );
 });
 
 test("edit user from create form", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  const userPage = new UserPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  await click(personalAccountPage.menuUsers);
-  await click(userPage.createUserButton);
-  await inputField(userPage.userEmail, pageTexts.createUserEmail);
-  await inputField(userPage.userFirstName, pageTexts.createUserFirstName);
-  await inputField(userPage.userLastName, pageTexts.createUserLastName);
-  await inputField(userPage.userPassword, pageTexts.createUserPassword);
-  await click(userPage.saveButton);
-  await click(userPage.createUserShow);
-  await click(userPage.createUserEditButton);
-  await inputField(userPage.userEmail, pageTexts.editUserEmail);
-  await inputField(userPage.userFirstName, pageTexts.editUserFirstName);
-  await inputField(userPage.userLastName, pageTexts.editUserLastName);
-  await inputField(userPage.userPassword, pageTexts.editUserPassword);
-  await click(userPage.saveButton);
-  await checkFieldByText(pageTexts.editUserEmail, page);
-  await checkFieldByText(pageTexts.editUserFirstName, page);
-  await checkFieldByText(pageTexts.editUserLastName, page);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
+  await userPage.createUser(
+    pageTexts.createUserEmail,
+    pageTexts.createUserFirstName,
+    pageTexts.createUserLastName,
+    pageTexts.createUserPassword,
+    page
+  );
+  await userPage.clickShowButton();
+  await userPage.clickEditButton();
+  await userPage.editUser(
+    pageTexts.editUserEmail,
+    pageTexts.editUserFirstName,
+    pageTexts.editUserLastName,
+    pageTexts.editUserPassword
+  );
+  await userPage.checkUser(
+    pageTexts.editUserEmail,
+    pageTexts.editUserFirstName,
+    pageTexts.editUserLastName,
+    page
+  );
 });
 
 test("negotive - edit user", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  const userPage = new UserPage(page);
-  await click(personalAccountPage.menuUsers);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
   await openCard(page, "1");
-  await inputField(userPage.userEmail, "");
-  await inputField(userPage.userFirstName, "");
-  await inputField(userPage.userLastName, "");
-  await inputField(userPage.userPassword, "");
-  await click(userPage.saveButton);
+  await userPage.editUser("", "", "", "");
 });
 
 test("delete user", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  const userPage = new UserPage(page);
-  await click(personalAccountPage.menuUsers);
-  await checkCheckbox(userPage.checkUser1);
-  await click(userPage.createUserDeleteButton);
-  await click(userPage.undoButtonUser);
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
+  await userPage.deleteUser(userPage.checkUser1);
+  await userPage.cancelDeletUser();
   await checkFieldByText(pageTexts.userForDelete1[0], page);
-  await checkCheckbox(userPage.checkUser1);
-  await click(userPage.createUserDeleteButton);
+  await userPage.deleteUser(userPage.checkUser1);
   await checkFieldByTextNotVisible(pageTexts.userForDelete1[0], page);
   await checkCheckbox(userPage.checkUser2);
   await checkCheckbox(userPage.checkUser3);
@@ -207,15 +155,9 @@ test("delete user", async ({ page }) => {
   await checkFieldByTextNotVisible(pageTexts.userForDelete3[0], page);
 });
 
-test("delete all user", async ({ page }) => {
-  await page.goto("http://localhost:5173/#/login");
-  const loginPage = new LoginPage(page);
-  const personalAccountPage = new PersonalAccountPage(page);
-  await inputField(loginPage.userName, pageTexts.userName);
-  await inputField(loginPage.password, pageTexts.password);
-  await click(loginPage.signIn);
-  const userPage = new UserPage(page);
-  await click(personalAccountPage.menuUsers);
+test("delete all user", async () => {
+  await loginPage.authorization(pageTexts.userName, pageTexts.password);
+  await personalAccountPage.goToMenuUsers();
   await checkCheckbox(userPage.checkAll);
   await checkField(userPage.itemSelected);
   await click(userPage.createUserDeleteButton);

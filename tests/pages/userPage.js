@@ -2,6 +2,13 @@
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 import users from "../__fixtures__/users";
+import {
+  inputField,
+  checkField,
+  click,
+  checkFieldByText,
+  checkCheckbox,
+} from "../func.js";
 
 export class UserPage {
   constructor(page) {
@@ -60,5 +67,69 @@ export class UserPage {
         })
       ).toBeVisible();
     }
+  }
+
+  async createUser(email, firstName, lastName, password) {
+    await click(this.createUserButton);
+    await inputField(this.userEmail, email);
+    await inputField(this.userFirstName, firstName);
+    await inputField(this.userLastName, lastName);
+    await inputField(this.userPassword, password);
+    await click(this.saveButton);
+  }
+
+  async editUser(email, firstName, lastName, password) {
+    await inputField(this.userEmail, email);
+    await inputField(this.userFirstName, firstName);
+    await inputField(this.userLastName, lastName);
+    await inputField(this.userPassword, password);
+    await click(this.saveButton);
+  }
+
+  async checkCreateUser(page) {
+    await checkFieldByText(pageTexts.createUserTextSuccess, page);
+    await checkFieldByText(pageTexts.createUserShow, page);
+    await checkField(this.createUserDeleteButton);
+  }
+
+  async clickShowButton() {
+    await click(this.createUserShow);
+  }
+
+  async clickEditButton() {
+    await click(this.createUserEditButton);
+  }
+
+  async checkUserCreateForm() {
+    await checkField(this.userEmail);
+    await checkField(this.userFirstName);
+    await checkField(this.userLastName);
+    await checkField(this.userPassword);
+  }
+
+  async checkUser(email, firstName, lastName, page) {
+    await checkFieldByText(email, page);
+    await checkFieldByText(firstName, page);
+    await checkFieldByText(lastName, page);
+  }
+
+  async checkEditButton() {
+    await click(this.createUserEditButton);
+  }
+
+  async checkSaveDeleteButton() {
+    await checkField(this.saveDeleteButton);
+  }
+
+  async deletUser() {
+    await click(this.createUserDeleteButton);
+  }
+
+  async deleteUser(user) {
+    await checkCheckbox(user);
+    await click(this.createUserDeleteButton);
+  }
+  async cancelDeletUser() {
+    await click(this.undoButtonUser);
   }
 }

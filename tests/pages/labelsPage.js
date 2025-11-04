@@ -1,7 +1,17 @@
 // pages/labelsPage.js
 import { expect } from "@playwright/test";
-import labels from "../__fixtures__/labels";
+import labels from "../__fixtures__/labels.js";
 import pageTexts from "../__fixtures__/pageTexts";
+
+import {
+  inputField,
+  checkField,
+  click,
+  openCard,
+  checkFieldByText,
+  checkCheckbox,
+  checkFieldByTextNotVisible,
+} from "../func.js";
 
 export class LabelsPage {
   constructor(page) {
@@ -37,4 +47,56 @@ export class LabelsPage {
       await expect(page.getByText(label.Name, { exact: true })).toBeVisible();
     }
   }
+
+  async createLabels(labelsName) {
+    await click(this.createLabelsButton);
+    await checkField(this.createLabelsName);
+    await inputField(this.createLabelsName, labelsName);
+    await click(this.statusSave);
+    await checkField(this.successSave);
+  }
+
+  async editLabelsFromList(labelsId, editLabelsName, page) {
+    await openCard(page, labelsId);
+    await inputField(this.createLabelsName, editLabelsName);
+    await click(this.statusSave);
+    await checkFieldByText(editLabelsName, page);
+  }
+
+  async editLabelsFromShow(editLabelsName, page) {
+    await click(this.showButtonStatusCreate);
+    await click(this.editButton);
+    await inputField(this.createLabelsName, editLabelsName);
+    await click(this.statusSave);
+    await checkFieldByText(editLabelsName, page);
+  }
+
+  async cancelDeleteLabel(labels, page) {
+    await checkCheckbox(
+      this.page.getByRole("row", {
+        name: `Select this row ${labels}`,
+      })
+    );
+    await click(this.deleteButton);
+    await click(this.undoButton);
+    await checkFieldByText(labels[0], page);
+  }
+
+  async successDeleteLabel(labels, page) {
+    await checkCheckbox(
+      this.page.getByRole("row", {
+        name: `Select this row ${labels}`,
+      })
+    );
+    await click(this.deleteButton);
+    await checkFieldByTextNotVisible(labels[0], page);
+  }
+
+  async allLabelsDelete(){
+  await checkCheckbox(this.checkAll);
+  await checkField(this.labelSelected);
+  await click(this.deleteButton);
+  await checkField(this.noLabelsStatus);
 }
+}
+
