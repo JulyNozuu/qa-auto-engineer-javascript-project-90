@@ -1,4 +1,3 @@
-// pages/loginPage.js
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 import { inputField, checkField, click, checkFieldByText } from "../func.js";

@@ -1,4 +1,3 @@
-// pages/personalAccountPage.js
 import pageTexts from "../__fixtures__/pageTexts";
 import {
   click,

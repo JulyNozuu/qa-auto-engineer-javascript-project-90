@@ -1,7 +1,5 @@
-// pages/labelsPage.js
 import { expect } from "@playwright/test";
 import labels from "../__fixtures__/labels.js";
-import pageTexts from "../__fixtures__/pageTexts";
 
 import {
   inputField,
@@ -28,15 +26,6 @@ export class LabelsPage {
     this.checkAll = page.getByLabel("Select all");
     this.labelSelected = this.page.getByRole("heading", {
       name: "items selected",
-    });
-    this.checkLabels1 = this.page.getByRole("row", {
-      name: `Select this row ${pageTexts.labelsForDelete1}`,
-    });
-    this.checkLabels2 = this.page.getByRole("row", {
-      name: `Select this row ${pageTexts.labelsForDelete2}`,
-    });
-    this.checkLabels3 = this.page.getByRole("row", {
-      name: `Select this row ${pageTexts.labelsForDelete3}`,
     });
 
     this.noLabelsStatus = this.page.getByText("No Label yet.");
@@ -92,11 +81,10 @@ export class LabelsPage {
     await checkFieldByTextNotVisible(labels[0], page);
   }
 
-  async allLabelsDelete(){
-  await checkCheckbox(this.checkAll);
-  await checkField(this.labelSelected);
-  await click(this.deleteButton);
-  await checkField(this.noLabelsStatus);
+  async allLabelsDelete() {
+    await checkCheckbox(this.checkAll);
+    await checkField(this.labelSelected);
+    await click(this.deleteButton);
+    await checkField(this.noLabelsStatus);
+  }
 }
-}
-

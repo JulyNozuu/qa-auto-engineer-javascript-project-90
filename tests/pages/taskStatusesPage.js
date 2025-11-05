@@ -1,4 +1,3 @@
-// pages/taskStatatusesPage.js
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 import taskStatuses from "../__fixtures__/taskStatuses";

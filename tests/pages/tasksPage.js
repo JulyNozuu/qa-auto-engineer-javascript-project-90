@@ -1,4 +1,3 @@
-// pages/tasksPage.js
 import { expect } from "@playwright/test";
 import tasks from "../__fixtures__/tasks";
 import pageTexts from "../__fixtures__/pageTexts";
@@ -30,41 +29,6 @@ export class TasksPage {
     });
     this.filterStatus = this.page.getByRole("combobox", { name: "Status" });
     this.filterLabel = this.page.getByRole("combobox", { name: "Label" });
-    this.editTask1 = this.page
-      .getByRole("button", { name: pageTexts.task1 })
-      .getByLabel("Edit");
-
-    this.editTask2 = this.page
-      .getByRole("button", { name: pageTexts.task2 })
-      .getByLabel("Edit");
-
-    this.editTask3 = this.page
-      .getByRole("button", { name: pageTexts.task3 })
-      .getByLabel("Edit");
-
-    this.showTask1 = this.page
-      .getByRole("button", { name: pageTexts.task1 })
-      .getByLabel("Show");
-
-    this.task1 = this.page.getByRole("button", {
-      name: pageTexts.task1,
-    });
-
-    this.task6 = this.page.getByRole("button", {
-      name: pageTexts.task6,
-    });
-    this.task7 = this.page.getByRole("button", {
-      name: pageTexts.task7,
-    });
-    this.task4 = this.page.getByRole("button", {
-      name: pageTexts.task4,
-    });
-    this.task10 = this.page.getByRole("button", {
-      name: pageTexts.task10,
-    });
-    this.task15 = this.page.getByRole("button", {
-      name: pageTexts.task15,
-    });
     this.deleteButton = this.page.getByLabel("Delete");
     this.undoButton = this.page.getByRole("button", { name: "Undo" });
     this.valueAssignee = this.page.getByRole("combobox", {
@@ -75,7 +39,7 @@ export class TasksPage {
     });
   }
 
-  async checkTasks(page) {
+  async checkTasksFromList(page) {
     for (const task of tasks) {
       await expect(page.getByRole("button", { name: task.name })).toBeVisible();
     }
@@ -136,12 +100,22 @@ export class TasksPage {
   async cancelDeleteTask(task) {
     await click(this.deleteButton);
     await click(this.undoButton);
-    await checkField(task);
+    await checkField(
+      this.page.getByRole("button", {
+        name: task,
+      })
+    );
   }
 
   async successDeleteTask(task, page) {
     await click(this.deleteButton);
     await checkField(this.successDelete);
     await checkFieldByTextNotVisible(task, page);
+  }
+
+  async checkTasks(taskText, timeout = 95000) {
+    await expect(this.page.getByRole("button", { name: taskText })).toBeVisible(
+      { timeout }
+    );
   }
 }
