@@ -1,16 +1,9 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import pageTexts from "./__fixtures__/pageTexts";
 import { PersonalAccountPage } from "./pages/personalAccountPage";
 import { UserPage } from "./pages/userPage";
-import {
-  checkField,
-  click,
-  checkFieldByText,
-  checkCheckbox,
-  openCard,
-  checkFieldByTextNotVisible,
-} from "./func.js";
+
 let loginPage;
 let personalAccountPage;
 let userPage;
@@ -84,7 +77,7 @@ test("user list", async ({ page }) => {
 test("editing form", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await personalAccountPage.goToMenuUsers();
-  await openCard(page, "1");
+  await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.checkUserCreateForm();
   await userPage.checkSaveDeleteButton();
 });
@@ -92,7 +85,7 @@ test("editing form", async ({ page }) => {
 test("edit user", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await personalAccountPage.goToMenuUsers();
-  await openCard(page, "1");
+  await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.editUser(
     pageTexts.editUserEmail,
     pageTexts.editUserFirstName,
@@ -136,7 +129,7 @@ test("edit user from create form", async ({ page }) => {
 test("negotive - edit user", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await personalAccountPage.goToMenuUsers();
-  await openCard(page, "1");
+  await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.editUser("", "", "", "");
 });
 
@@ -145,21 +138,39 @@ test("delete user", async ({ page }) => {
   await personalAccountPage.goToMenuUsers();
   await userPage.deleteUser(userPage.checkUser1);
   await userPage.cancelDeletUser();
-  await checkFieldByText(pageTexts.userForDelete1[0], page);
+  await expect(
+    page.getByText(pageTexts.userForDelete1[0], { exact: true })
+  ).toBeVisible({
+    timeout: 95000,
+  });
   await userPage.deleteUser(userPage.checkUser1);
-  await checkFieldByTextNotVisible(pageTexts.userForDelete1[0], page);
-  await checkCheckbox(userPage.checkUser2);
-  await checkCheckbox(userPage.checkUser3);
-  await click(userPage.createUserDeleteButton);
-  await checkFieldByTextNotVisible(pageTexts.userForDelete2[0], page);
-  await checkFieldByTextNotVisible(pageTexts.userForDelete3[0], page);
+  await expect(
+    page.getByText(pageTexts.userForDelete1[0], { exact: true })
+  ).not.toBeVisible();
+  await userPage.checkUser2.getByRole("checkbox").check();
+  await userPage.checkUser3.getByRole("checkbox").check();
+  await userPage.createUserDeleteButton.click({
+    timeout: 75000,
+  });
+  await expect(
+    page.getByText(pageTexts.userForDelete2[0], { exact: true })
+  ).not.toBeVisible();
+  await expect(
+    page.getByText(pageTexts.userForDelete3[0], { exact: true })
+  ).not.toBeVisible();
 });
 
 test("delete all user", async () => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await personalAccountPage.goToMenuUsers();
-  await checkCheckbox(userPage.checkAll);
-  await checkField(userPage.itemSelected);
-  await click(userPage.createUserDeleteButton);
-  await checkField(userPage.noUser);
+  await userPage.checkAll.getByRole("checkbox").check();
+  await expect(userPage.itemSelected).toBeVisible({
+    timeout: 95000,
+  });
+  await userPage.createUserDeleteButton.click({
+    timeout: 75000,
+  });
+  await expect(userPage.noUser).toBeVisible({
+    timeout: 95000,
+  });
 });

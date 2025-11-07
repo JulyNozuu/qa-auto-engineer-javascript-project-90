@@ -3,7 +3,6 @@ import { LoginPage } from "./pages/loginPage.js";
 import { TasksPage } from "./pages/tasksPage.js";
 import pageTexts from "./__fixtures__/pageTexts.js";
 import { PersonalAccountPage } from "./pages/personalAccountPage.js";
-import { click, selectOption } from "./func.js";
 
 let loginPage;
 let personalAccountPage;
@@ -94,21 +93,37 @@ test("delete task from create", async ({ page }) => {
 test("filter task", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await personalAccountPage.goToMenuTasks();
-  await click(tasksPage.filterAssignee);
-  await selectOption(page, pageTexts.assigneeForFilter);
+  await tasksPage.filterAssignee.click({
+    timeout: 75000,
+  });
+  await page.getByRole("option", { name: pageTexts.assigneeForFilter }).click({
+    timeout: 75000,
+  });
   await tasksPage.checkTasks(pageTexts.task6);
   await tasksPage.checkTasks(pageTexts.task7);
   await tasksPage.valueAssignee;
-  await click(tasksPage.valueAssignee);
-  await selectOption(page, pageTexts.clearValue);
+  await tasksPage.valueAssignee.click({
+    timeout: 75000,
+  });
+  await page.getByRole("option", { name: pageTexts.clearValue }).click({
+    timeout: 75000,
+  });
   await tasksPage.checkTasksFromList(page);
-  await click(tasksPage.filterStatus);
-  await selectOption(page, pageTexts.statusPublished);
+  await tasksPage.filterStatus.click({
+    timeout: 75000,
+  });
+  await page.getByRole("option", { name: pageTexts.statusPublished }).click({
+    timeout: 75000,
+  });
   await tasksPage.checkTasks(pageTexts.task4);
   await tasksPage.checkTasks(pageTexts.task10);
   await tasksPage.checkTasks(pageTexts.task15);
-  await click(tasksPage.filterLabel);
-  await selectOption(page, pageTexts.labelCritical);
+  await tasksPage.filterLabel.click({
+    timeout: 75000,
+  });
+  await page.getByRole("option", { name: pageTexts.labelCritical }).click({
+    timeout: 75000,
+  });
   await tasksPage.checkTasks(pageTexts.task15);
 });
 

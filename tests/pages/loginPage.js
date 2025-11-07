@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
-import { inputField, checkField, click, checkFieldByText } from "../func.js";
 
 export class LoginPage {
   constructor(page) {
@@ -31,27 +30,45 @@ export class LoginPage {
     await this.password.fill(query);
   }
   async clickSignInButton() {
-    await this.signIn.click();
+    await this.signIn.click({
+      timeout: 75000,
+    });
   }
 
   async checkLoginForm() {
     await this.page.goto("http://localhost:5173/#/login");
-    await checkField(this.userName);
-    await checkField(this.password);
-    await checkField(this.signIn);
+    await expect(this.userName).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.password).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.signIn).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async authorization(name, password) {
     await this.page.goto("http://localhost:5173/#/login");
-    await inputField(this.userName, name);
-    await inputField(this.password, password);
-    await click(this.signIn);
+    await this.userName.fill(name);
+    await this.password.fill(password);
+    await this.signIn.click({
+      timeout: 75000,
+    });
   }
 
   async checkWelcomeText(page) {
-    await checkFieldByText(pageTexts.welcomeTextPersonalAccountPage, page);
+    await expect(
+      page.getByText(pageTexts.welcomeTextPersonalAccountPage, { exact: true })
+    ).toBeVisible({
+      timeout: 95000,
+    });
   }
   async checkErrorText(page) {
-    await checkFieldByText(pageTexts.errorTextLoginPage, page);
+    await expect(
+      page.getByText(pageTexts.errorTextLoginPage, { exact: true })
+    ).toBeVisible({
+      timeout: 95000,
+    });
   }
 }

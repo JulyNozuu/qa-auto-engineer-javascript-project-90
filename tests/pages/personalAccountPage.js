@@ -1,7 +1,4 @@
 import pageTexts from "../__fixtures__/pageTexts";
-import {
-  click,
-} from "../func.js";
 
 export class PersonalAccountPage {
   constructor(page) {
@@ -20,27 +17,38 @@ export class PersonalAccountPage {
   }
 
   async goToProfile() {
-    await click(this.profile);
+    await this.profile.click({
+      timeout: 75000,
+    });
   }
 
   async logout() {
-    await click(this.logoutBottun);
+    await this.logoutBottun.click({
+      timeout: 75000,
+    });
   }
 
   async goToMenuUsers() {
-    await click(this.menuUsers);
+    await this.menuUsers.click({
+      timeout: 75000,
+    });
   }
 
   async goToMenuTasks() {
-    await click(this.menuTasks);
+    await this.menuTasks.click({
+      timeout: 75000,
+    });
   }
 
   async goToMenuLabels() {
-    await click(this.menuLabels);
+    await this.menuLabels.click({
+      timeout: 75000,
+    });
   }
 
   async goToMenuStatuses() {
-    await click(this.menuStatuses);
+    await this.menuStatuses.click({
+      timeout: 75000,
+    });
   }
-  
 }

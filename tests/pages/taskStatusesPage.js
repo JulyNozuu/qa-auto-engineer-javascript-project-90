@@ -2,16 +2,6 @@ import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 import taskStatuses from "../__fixtures__/taskStatuses";
 
-import {
-  inputField,
-  checkField,
-  click,
-  openCard,
-  checkFieldByText,
-  checkFieldByTextNotVisible,
-  checkCheckbox,
-} from "../func.js";
-
 export class TaskStatatusesPage {
   constructor(page) {
     this.page = page;
@@ -54,59 +44,104 @@ export class TaskStatatusesPage {
   }
 
   async createStatus(statusName, statusSlug) {
-    await click(this.createStatusButton);
-    await checkField(this.createStatusName);
-    await checkField(this.createStatusSlug);
-    await inputField(this.createStatusName, statusName);
-    await inputField(this.createStatusName, statusSlug);
-    await click(this.statusSave);
-    await checkField(this.successSave);
+    await this.createStatusButton.click({
+      timeout: 75000,
+    });
+    await expect(this.createStatusName).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.createStatusSlug).toBeVisible({
+      timeout: 95000,
+    });
+    await this.createStatusName.fill(statusName);
+    await this.createStatusSlug.fill(statusSlug);
+    await this.statusSave.click({
+      timeout: 75000,
+    });
+    await expect(this.successSave).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async editStatus(id, editStatusName, editStatusSlug, page) {
-    await openCard(page, id);
-    await inputField(this.createStatusName, editStatusName);
-    await inputField(this.createStatusSlug, editStatusSlug);
-    await click(this.statusSave);
-    await checkFieldByText(editStatusName, page);
-    await checkFieldByText(editStatusSlug, page);
+    await page.getByRole("cell", { name: id, exact: true }).click();
+    await this.createStatusName.fill(editStatusName);
+    await this.createStatusSlug.fill(editStatusSlug);
+    await this.statusSave.click({
+      timeout: 75000,
+    });
+    await expect(page.getByText(editStatusName, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(page.getByText(editStatusSlug, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async editStatusFromShow(editStatusName, editStatusSlug, page) {
-    await click(this.showButtonStatusCreate);
-    await click(this.editButton);
-    await inputField(this.createStatusName, editStatusName);
-    await inputField(this.createStatusSlug, editStatusSlug);
-    await click(this.statusSave);
-    await checkFieldByText(pageTexts.editStatusName, page);
-    await checkFieldByText(pageTexts.editStatusSlug, page);
+    await this.showButtonStatusCreate.click({
+      timeout: 75000,
+    });
+    await this.editButton.click({
+      timeout: 75000,
+    });
+    await this.createStatusName.fill(editStatusName);
+    await this.createStatusSlug.fill(editStatusSlug);
+    await this.statusSave.click({
+      timeout: 75000,
+    });
+
+    await expect(
+      page.getByText(pageTexts.editStatusName, { exact: true })
+    ).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(page.getByText(editStatusSlug, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async cancelDeleteStatus(status, page) {
-    await checkCheckbox(
-      this.page.getByRole("row", {
+    await this.page
+      .getByRole("row", {
         name: `Select this row ${status}`,
       })
-    );
-    await click(this.deleteButton);
-    await click(this.undoButton);
-    await checkFieldByText(status[0], page);
+      .getByRole("checkbox")
+      .check();
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await this.undoButton.click({
+      timeout: 75000,
+    });
+    await expect(page.getByText(status[0], { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async successDeleteStatus(status, page) {
-    await checkCheckbox(
-      this.page.getByRole("row", {
+    await this.page
+      .getByRole("row", {
         name: `Select this row ${status}`,
       })
-    );
-    await click(this.deleteButton);
-    await checkFieldByTextNotVisible(status[0], page);
+      .getByRole("checkbox")
+      .check();
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await expect(page.getByText(status[0], { exact: true })).not.toBeVisible();
   }
 
   async allStatusDelete() {
-    await checkCheckbox(this.checkAll);
-    await checkField(this.itemSelected);
-    await click(this.deleteButton);
-    await checkField(this.noTaskStatus);
+    await this.checkAll.getByRole("checkbox").check();
+    await expect(this.itemSelected).toBeVisible({
+      timeout: 95000,
+    });
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await expect(this.noTaskStatus).toBeVisible({
+      timeout: 95000,
+    });
   }
 }

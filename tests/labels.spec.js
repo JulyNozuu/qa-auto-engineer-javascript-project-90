@@ -1,9 +1,8 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage.js";
 import { LabelsPage } from "./pages/labelsPage.js";
 import pageTexts from "./__fixtures__/pageTexts.js";
 import { PersonalAccountPage } from "./pages/personalAccountPage.js";
-import { checkField, openCard } from "./func.js";
 
 let loginPage;
 let personalAccountPage;
@@ -30,9 +29,13 @@ test("labels list", async ({ page }) => {
 test("editing form labels", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await personalAccountPage.goToMenuLabels();
-  await openCard(page, "1");
-  await checkField(labelsPage.createLabelsName);
-  await checkField(labelsPage.saveDeleteButton);
+  await page.getByRole("cell", { name: 1, exact: true }).click();
+  await expect(labelsPage.createLabelsName).toBeVisible({
+    timeout: 95000,
+  });
+  await expect(labelsPage.saveDeleteButton).toBeVisible({
+    timeout: 95000,
+  });
 });
 
 test("edit labels", async ({ page }) => {

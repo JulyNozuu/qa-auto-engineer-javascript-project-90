@@ -1,16 +1,6 @@
 import { expect } from "@playwright/test";
 import labels from "../__fixtures__/labels.js";
 
-import {
-  inputField,
-  checkField,
-  click,
-  openCard,
-  checkFieldByText,
-  checkCheckbox,
-  checkFieldByTextNotVisible,
-} from "../func.js";
-
 export class LabelsPage {
   constructor(page) {
     this.page = page;
@@ -38,53 +28,90 @@ export class LabelsPage {
   }
 
   async createLabels(labelsName) {
-    await click(this.createLabelsButton);
-    await checkField(this.createLabelsName);
-    await inputField(this.createLabelsName, labelsName);
-    await click(this.statusSave);
-    await checkField(this.successSave);
+    await this.createLabelsButton.click({
+      timeout: 75000,
+    });
+    await expect(this.createLabelsName).toBeVisible({
+      timeout: 95000,
+    });
+    await this.createLabelsName.fill(labelsName);
+    await this.statusSave.click({
+      timeout: 75000,
+    });
+    await expect(this.successSave).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async editLabelsFromList(labelsId, editLabelsName, page) {
-    await openCard(page, labelsId);
-    await inputField(this.createLabelsName, editLabelsName);
-    await click(this.statusSave);
-    await checkFieldByText(editLabelsName, page);
+    await page.getByRole("cell", { name: labelsId, exact: true }).click();
+    await this.createLabelsName.fill(editLabelsName);
+    await this.statusSave.click({
+      timeout: 75000,
+    });
+    await expect(page.getByText(editLabelsName, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async editLabelsFromShow(editLabelsName, page) {
-    await click(this.showButtonStatusCreate);
-    await click(this.editButton);
-    await inputField(this.createLabelsName, editLabelsName);
-    await click(this.statusSave);
-    await checkFieldByText(editLabelsName, page);
+    await this.showButtonStatusCreate.click({
+      timeout: 75000,
+    });
+    await this.editButton.click({
+      timeout: 75000,
+    });
+    await this.createLabelsName.fill(editLabelsName);
+    await this.statusSave.click({
+      timeout: 75000,
+    });
+    await expect(page.getByText(editLabelsName, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async cancelDeleteLabel(labels, page) {
-    await checkCheckbox(
-      this.page.getByRole("row", {
+    await this.page
+      .getByRole("row", {
         name: `Select this row ${labels}`,
       })
-    );
-    await click(this.deleteButton);
-    await click(this.undoButton);
-    await checkFieldByText(labels[0], page);
+      .getByRole("checkbox")
+      .check();
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await this.undoButton.click({
+      timeout: 75000,
+    });
+    await expect(page.getByText(labels[0], { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async successDeleteLabel(labels, page) {
-    await checkCheckbox(
-      this.page.getByRole("row", {
+    await this.page
+      .getByRole("row", {
         name: `Select this row ${labels}`,
       })
-    );
-    await click(this.deleteButton);
-    await checkFieldByTextNotVisible(labels[0], page);
+      .getByRole("checkbox")
+      .check();
+
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await expect(page.getByText(labels[0], { exact: true })).not.toBeVisible();
   }
 
   async allLabelsDelete() {
-    await checkCheckbox(this.checkAll);
-    await checkField(this.labelSelected);
-    await click(this.deleteButton);
-    await checkField(this.noLabelsStatus);
+    await this.checkAll.getByRole("checkbox").check();
+    await expect(this.labelSelected).toBeVisible({
+      timeout: 95000,
+    });
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await expect(this.noLabelsStatus).toBeVisible({
+      timeout: 95000,
+    });
   }
 }

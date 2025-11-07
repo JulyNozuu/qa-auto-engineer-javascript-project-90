@@ -1,13 +1,6 @@
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 import users from "../__fixtures__/users";
-import {
-  inputField,
-  checkField,
-  click,
-  checkFieldByText,
-  checkCheckbox,
-} from "../func.js";
 
 export class UserPage {
   constructor(page) {
@@ -69,66 +62,110 @@ export class UserPage {
   }
 
   async createUser(email, firstName, lastName, password) {
-    await click(this.createUserButton);
-    await inputField(this.userEmail, email);
-    await inputField(this.userFirstName, firstName);
-    await inputField(this.userLastName, lastName);
-    await inputField(this.userPassword, password);
-    await click(this.saveButton);
+    await this.createUserButton.click({
+      timeout: 75000,
+    });
+    await this.userEmail.fill(email);
+    await this.userFirstName.fill(firstName);
+    await this.userLastName.fill(lastName);
+    await this.userPassword.fill(password);
+    await this.saveButton.click({
+      timeout: 75000,
+    });
   }
 
   async editUser(email, firstName, lastName, password) {
-    await inputField(this.userEmail, email);
-    await inputField(this.userFirstName, firstName);
-    await inputField(this.userLastName, lastName);
-    await inputField(this.userPassword, password);
-    await click(this.saveButton);
+    await this.userEmail.fill(email);
+    await this.userFirstName.fill(firstName);
+    await this.userLastName.fill(lastName);
+    await this.userPassword.fill(password);
+    await this.saveButton.click({
+      timeout: 75000,
+    });
   }
 
   async checkCreateUser(page) {
-    await checkFieldByText(pageTexts.createUserTextSuccess, page);
-    await checkFieldByText(pageTexts.createUserShow, page);
-    await checkField(this.createUserDeleteButton);
+    await expect(
+      page.getByText(pageTexts.createUserTextSuccess, { exact: true })
+    ).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(
+      page.getByText(pageTexts.createUserShow, { exact: true })
+    ).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.createUserDeleteButton).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async clickShowButton() {
-    await click(this.createUserShow);
+    await this.createUserShow.click({
+      timeout: 75000,
+    });
   }
 
   async clickEditButton() {
-    await click(this.createUserEditButton);
+    await this.createUserEditButton.click({
+      timeout: 75000,
+    });
   }
 
   async checkUserCreateForm() {
-    await checkField(this.userEmail);
-    await checkField(this.userFirstName);
-    await checkField(this.userLastName);
-    await checkField(this.userPassword);
+    await expect(this.userEmail).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.userFirstName).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.userLastName).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.userPassword).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async checkUser(email, firstName, lastName, page) {
-    await checkFieldByText(email, page);
-    await checkFieldByText(firstName, page);
-    await checkFieldByText(lastName, page);
+    await expect(page.getByText(email, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(page.getByText(firstName, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(page.getByText(lastName, { exact: true })).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async checkEditButton() {
-    await click(this.createUserEditButton);
+    await this.createUserEditButton.click({
+      timeout: 75000,
+    });
   }
 
   async checkSaveDeleteButton() {
-    await checkField(this.saveDeleteButton);
+    await expect(this.saveDeleteButton).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async deletUser() {
-    await click(this.createUserDeleteButton);
+    await this.createUserDeleteButton.click({
+      timeout: 75000,
+    });
   }
 
   async deleteUser(user) {
-    await checkCheckbox(user);
-    await click(this.createUserDeleteButton);
+    await user.getByRole("checkbox").check();
+    await this.createUserDeleteButton.click({
+      timeout: 75000,
+    });
   }
   async cancelDeletUser() {
-    await click(this.undoButtonUser);
+    await this.undoButtonUser.click({
+      timeout: 75000,
+    });
   }
 }

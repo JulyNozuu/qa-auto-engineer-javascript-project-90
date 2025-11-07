@@ -2,15 +2,6 @@ import { expect } from "@playwright/test";
 import tasks from "../__fixtures__/tasks";
 import pageTexts from "../__fixtures__/pageTexts";
 
-import {
-  inputField,
-  checkField,
-  click,
-  checkFieldByTextNotVisible,
-  selectOption,
-  clickSomewhere,
-} from "../func.js";
-
 export class TasksPage {
   constructor(page) {
     this.page = page;
@@ -46,71 +37,131 @@ export class TasksPage {
   }
 
   async clickCreateTasksButton() {
-    await click(this.createLabelsButton);
+    await this.createLabelsButton.click({
+      timeout: 75000,
+    });
   }
 
   async checkFieldCreateTask() {
-    await checkField(this.createAssignee);
-    await checkField(this.createTitle);
-    await checkField(this.createContent);
-    await checkField(this.createStatus);
-    await checkField(this.createLabel);
+    await expect(this.createAssignee).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.createTitle).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.createContent).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.createStatus).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(this.createLabel).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async createTask(assignee, title, content, status, label, page) {
-    await click(this.createAssignee);
-    await selectOption(page, assignee);
-    await inputField(this.createTitle, title);
-    await inputField(this.createContent, content);
-    await click(this.createStatus);
-    await selectOption(page, status);
-    await click(this.createLabel);
-    await selectOption(page, label);
-    await clickSomewhere(page);
-    await click(this.tasksSave);
-    await checkField(this.successSave);
+    await this.createAssignee.click({
+      timeout: 75000,
+    });
+    await page.getByRole("option", { name: assignee }).click({
+      timeout: 75000,
+    });
+    await this.createTitle.fill(title);
+    await this.createContent.fill(content);
+    await this.createStatus.click({
+      timeout: 75000,
+    });
+    await page.getByRole("option", { name: status }).click({
+      timeout: 75000,
+    });
+    await this.createLabel.click({
+      timeout: 75000,
+    });
+    await page.getByRole("option", { name: label }).click({
+      timeout: 75000,
+    });
+    await page.locator("#menu-label_id div").first().click();
+    await this.tasksSave.click({
+      timeout: 75000,
+    });
+    await expect(this.successSave).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async clickEditTasksButton(page, task) {
-    await click(page.getByRole("button", { name: task }).getByLabel("Edit"));
+    await page.getByRole("button", { name: task }).getByLabel("Edit").click({
+      timeout: 75000,
+    });
   }
 
   async clickShowTasksButton(page, task) {
-    await click(page.getByRole("button", { name: task }).getByLabel("Show"));
+    await page.getByRole("button", { name: task }).getByLabel("Show").click({
+      timeout: 75000,
+    });
   }
 
   async clickTasksButton(page, task) {
-    await click(page.getByRole("button", { name: task }).getByLabel("Edit"));
+    await page.getByRole("button", { name: task }).getByLabel("Edit").click({
+      timeout: 75000,
+    });
   }
 
   async editTask(assignee, title, content, status, label, page) {
-    await click(this.createAssignee);
-    await selectOption(page, assignee);
-    await inputField(this.createTitle, title);
-    await inputField(this.createContent, content);
-    await click(this.createStatus);
-    await selectOption(page, status);
-    await click(this.createLabel);
-    await selectOption(page, label);
-    await clickSomewhere(page);
-    await click(this.tasksSave);
-    await checkField(this.successUpdate);
+    await this.createAssignee.click({
+      timeout: 75000,
+    });
+    await page.getByRole("option", { name: assignee }).click({
+      timeout: 75000,
+    });
+    await this.createTitle.fill(title);
+    await this.createContent.fill(content);
+    await this.createStatus.click({
+      timeout: 75000,
+    });
+    await page.getByRole("option", { name: status }).click({
+      timeout: 75000,
+    });
+    await this.createLabel.click({
+      timeout: 75000,
+    });
+    await page.getByRole("option", { name: label }).click({
+      timeout: 75000,
+    });
+    await page.locator("#menu-label_id div").first().click();
+    await this.tasksSave.click({
+      timeout: 75000,
+    });
+    await expect(this.successUpdate).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async cancelDeleteTask(task) {
-    await click(this.deleteButton);
-    await click(this.undoButton);
-    await checkField(
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await this.undoButton.click({
+      timeout: 75000,
+    });
+    await expect(
       this.page.getByRole("button", {
         name: task,
       })
-    );
+    ).toBeVisible({
+      timeout: 95000,
+    });
   }
 
   async successDeleteTask(task, page) {
-    await click(this.deleteButton);
-    await checkField(this.successDelete);
-    await checkFieldByTextNotVisible(task, page);
+    await this.deleteButton.click({
+      timeout: 75000,
+    });
+    await expect(this.successDelete).toBeVisible({
+      timeout: 95000,
+    });
+    await expect(page.getByText(task, { exact: true })).not.toBeVisible();
   }
 
   async checkTasks(taskText, timeout = 95000) {

@@ -1,12 +1,8 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { TaskStatatusesPage } from "./pages/taskStatusesPage.js";
 import pageTexts from "./__fixtures__/pageTexts";
 import { PersonalAccountPage } from "./pages/personalAccountPage";
-import {
-  checkField,
-  openCard,
-} from "./func.js";
 
 let loginPage;
 let personalAccountPage;
@@ -36,10 +32,16 @@ test("status list", async ({ page }) => {
 test("editing form status", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await personalAccountPage.goToMenuStatuses();
-  await openCard(page, "1");
-  await checkField(statusPage.createStatusName);
-  await checkField(statusPage.createStatusSlug);
-  await checkField(statusPage.saveDeleteButton);
+  await page.getByRole("cell", { name: 1, exact: true }).click();
+  await expect(statusPage.createStatusName).toBeVisible({
+    timeout: 95000,
+  });
+  await expect(statusPage.createStatusSlug).toBeVisible({
+    timeout: 95000,
+  });
+  await expect(statusPage.saveDeleteButton).toBeVisible({
+    timeout: 95000,
+  });
 });
 
 test("edit status", async ({ page }) => {
