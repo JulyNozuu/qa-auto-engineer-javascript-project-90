@@ -24,16 +24,21 @@
 - Язык: JavaScript.
 - Версия Node.js v23.1.0.
 
+```Shell
 ## Установка:
 
 npm ci
+```
 
+```Shell
 ## Запуск тестов:
 
 Запуск приложения Канбан-доски:
 npm run dev
+```
 
+```Shell
 ## Запуск тестов:
 
 npx playwright test
-
+```
