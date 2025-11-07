@@ -1,3 +1,9 @@
+[![hexlet-check](https://github.com/JulyNozuu/qa-auto-engineer-javascript-project-90/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/JulyNozuu/qa-auto-engineer-javascript-project-90/actions/workflows/hexlet-check.yml)
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=JulyNozuu_qa-auto-engineer-javascript-project-90&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=JulyNozuu_qa-auto-engineer-javascript-project-90)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=JulyNozuu_qa-auto-engineer-javascript-project-90&metric=coverage)](https://sonarcloud.io/summary/new_code?id=JulyNozuu_qa-auto-engineer-javascript-project-90)
+
 # Тестирование Канбан-доски
 
 Проект реализован а рамках обучения Hexlet.
@@ -31,6 +37,3 @@ npm run dev
 
 npx playwright test
 
-[![hexlet-check](https://github.com/JulyNozuu/qa-auto-engineer-javascript-project-90/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/JulyNozuu/qa-auto-engineer-javascript-project-90/actions/workflows/hexlet-check.yml)
-
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=JulyNozuu_qa-auto-engineer-javascript-project-90&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=JulyNozuu_qa-auto-engineer-javascript-project-90)
