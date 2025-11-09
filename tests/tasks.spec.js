@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "./pages/loginPage.js";
+import { LoginPage } from "./pages/LoginPage.js";
 import { TasksPage } from "./pages/tasksPage.js";
 import pageTexts from "./__fixtures__/pageTexts.js";
 import { PersonalAccountPage } from "./pages/personalAccountPage.js";

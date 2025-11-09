@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "./pages/loginPage";
+import { LoginPage } from "./pages/LoginPage.js";
 import { TaskStatatusesPage } from "./pages/taskStatusesPage.js";
 import pageTexts from "./__fixtures__/pageTexts";
 import { PersonalAccountPage } from "./pages/personalAccountPage";
