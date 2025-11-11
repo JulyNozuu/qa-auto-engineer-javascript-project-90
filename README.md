@@ -4,7 +4,6 @@
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=JulyNozuu_qa-auto-engineer-javascript-project-90&metric=coverage)](https://sonarcloud.io/summary/new_code?id=JulyNozuu_qa-auto-engineer-javascript-project-90)
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=JulyNozuu_qa-auto-engineer-javascript-project-90&metric=coverage)](https://sonarcloud.io/summary/new_code?id=JulyNozuu_qa-auto-engineer-javascript-project-90)
 
 # Тестирование Канбан-доски
 
