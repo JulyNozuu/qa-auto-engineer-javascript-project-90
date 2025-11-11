@@ -1,16 +1,16 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "./pages/LoginPage";
+import { LoginPage } from "./pages/loginPage";
 import pageTexts from "./__fixtures__/pageTexts";
-import { PersonalAccountPage } from "./pages/personalAccountPage";
+import { MainPage } from "./pages/mainPage";
 import { UserPage } from "./pages/userPage";
 
 let loginPage;
-let personalAccountPage;
+let mainPage;
 let userPage;
 
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page);
-  personalAccountPage = new PersonalAccountPage(page);
+  mainPage = new MainPage(page);
   userPage = new UserPage(page);
 });
 
@@ -35,14 +35,14 @@ test("negotive - login", async ({ page }) => {
 test("logout", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await loginPage.checkWelcomeText(page);
-  await personalAccountPage.goToProfile();
-  await personalAccountPage.logout();
+  await mainPage.goToProfile();
+  await mainPage.logout();
   await loginPage.checkLoginForm();
 });
 
 test("create user", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await userPage.createUser(
     pageTexts.createUserEmail,
     pageTexts.createUserFirstName,
@@ -59,7 +59,7 @@ test("create user", async ({ page }) => {
     page
   );
   await userPage.checkEditButton();
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await userPage.checkUser(
     pageTexts.createUserEmail,
     pageTexts.createUserFirstName,
@@ -70,13 +70,13 @@ test("create user", async ({ page }) => {
 
 test("user list", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await userPage.checkUsers(page);
 });
 
 test("editing form", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.checkUserCreateForm();
   await userPage.checkSaveDeleteButton();
@@ -84,7 +84,7 @@ test("editing form", async ({ page }) => {
 
 test("edit user", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.editUser(
     pageTexts.editUserEmail,
@@ -102,7 +102,7 @@ test("edit user", async ({ page }) => {
 
 test("edit user from create form", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await userPage.createUser(
     pageTexts.createUserEmail,
     pageTexts.createUserFirstName,
@@ -128,14 +128,14 @@ test("edit user from create form", async ({ page }) => {
 
 test("negotive - edit user", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.editUser("", "", "", "");
 });
 
 test("delete user", async ({ page }) => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await userPage.deleteUser(userPage.checkUser1);
   await userPage.cancelDeletUser();
   await expect(
@@ -162,7 +162,7 @@ test("delete user", async ({ page }) => {
 
 test("delete all user", async () => {
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await personalAccountPage.goToMenuUsers();
+  await mainPage.goToMenuUsers();
   await userPage.checkAll.getByRole("checkbox").check();
   await expect(userPage.itemSelected).toBeVisible({
     timeout: 95000,

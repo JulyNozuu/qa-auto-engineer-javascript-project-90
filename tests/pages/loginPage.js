@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 
-export class LoginPage {
+export class  LoginPage {
   constructor(page) {
     this.page = page;
     this.userName = this.page.getByLabel("Username *");

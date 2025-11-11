@@ -1,6 +1,6 @@
 import pageTexts from "../__fixtures__/pageTexts";
 
-export class PersonalAccountPage {
+export class MainPage {
   constructor(page) {
     this.page = page;
     this.welcomText = this.page.getByText(
