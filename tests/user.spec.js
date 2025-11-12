@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "./pages/LoginPage";
+import { LoginPage } from "./pages/loginPage";
 import pageTexts from "./__fixtures__/pageTexts";
-import { MainPage } from "./pages/MainPage";
-import { UserPage } from "./pages/UserPage";
+import { MainPage } from "./pages/mainPage";
+import { UserPage } from "./pages/userPage";
 
 let loginPage;
 let mainPage;

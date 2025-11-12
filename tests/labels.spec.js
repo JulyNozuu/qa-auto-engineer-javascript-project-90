@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "./pages/LoginPage.js";
-import { LabelsPage } from "./pages/LabelsPage.js";
+import { LoginPage } from "./pages/loginPage.js";
+import { LabelsPage } from "./pages/labelsPage.js";
 import pageTexts from "./__fixtures__/pageTexts.js";
 
 let loginPage;

@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "./pages/LoginPage";
+import { LoginPage } from "./pages/loginPage.js";
 import pageTexts from "./__fixtures__/pageTexts";
 
 let loginPage;
