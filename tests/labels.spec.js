@@ -1,35 +1,32 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "./pages/loginPage.js";
-import { LabelsPage } from "./pages/labelsPage.js";
+import { LoginPage } from "./pages/LoginPage.js";
+import { LabelsPage } from "./pages/LabelsPage.js";
 import pageTexts from "./__fixtures__/pageTexts.js";
-import { MainPage } from "./pages/mainPage.js";
 
 let loginPage;
-let mainPage;
 let labelsPage;
 
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page);
-  mainPage = new MainPage(page);
   labelsPage = new LabelsPage(page);
 });
 
 test("create labels", async () => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await labelsPage.navigateToLabelPage();
   await labelsPage.createLabels(pageTexts.createLabelsName);
 });
 
 test("labels list", async ({ page }) => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await labelsPage.navigateToLabelPage();
   await labelsPage.checkLabels(page);
 });
 
 test("editing form labels", async ({ page }) => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await labelsPage.navigateToLabelPage();
   await page.getByRole("cell", { name: 1, exact: true }).click();
@@ -42,14 +39,14 @@ test("editing form labels", async ({ page }) => {
 });
 
 test("edit labels", async ({ page }) => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await labelsPage.navigateToLabelPage();
   await labelsPage.editLabelsFromList(1, pageTexts.editLabelsName, page);
 });
 
 test("edit labels from create", async ({ page }) => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await labelsPage.navigateToLabelPage();
   await labelsPage.createLabels(pageTexts.createLabelsName);
@@ -57,7 +54,7 @@ test("edit labels from create", async ({ page }) => {
 });
 
 test("delete labels", async ({ page }) => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await labelsPage.navigateToLabelPage();
   await labelsPage.cancelDeleteLabel(pageTexts.labelsForDelete1, page);
@@ -65,7 +62,7 @@ test("delete labels", async ({ page }) => {
 });
 
 test("delete all labels", async () => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await labelsPage.navigateToLabelPage();
   await labelsPage.allLabelsDelete();

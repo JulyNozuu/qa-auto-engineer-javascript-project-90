@@ -1,16 +1,13 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "./pages/loginPage.js";
-import { TasksPage } from "./pages/tasksPage.js";
+import { LoginPage } from "./pages/LoginPage.js";
+import { TasksPage } from "./pages/TasksPage.js";
 import pageTexts from "./__fixtures__/pageTexts.js";
-import { MainPage } from "./pages/mainPage.js";
 
 let loginPage;
-let mainPage;
 let tasksPage;
 
 test.beforeEach(async ({ page }) => {
   loginPage = new LoginPage(page);
-  mainPage = new MainPage(page);
   tasksPage = new TasksPage(page);
 });
 

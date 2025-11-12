@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "./pages/loginPage";
+import { LoginPage } from "./pages/LoginPage";
 import pageTexts from "./__fixtures__/pageTexts";
-import { MainPage } from "./pages/mainPage";
+import { MainPage } from "./pages/MainPage";
 
 let loginPage;
 let mainPage;
@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("logout", async ({ page }) => {
-  await loginPage.navigateToLoginPage()
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await loginPage.checkWelcomeText(page);
   await mainPage.goToProfile();
