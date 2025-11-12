@@ -1,13 +1,17 @@
 import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 
-export class  LoginPage {
+export class LoginPage {
   constructor(page) {
     this.page = page;
     this.userName = this.page.getByLabel("Username *");
     this.password = this.page.getByLabel("Password *");
     this.signIn = this.page.getByRole("button", { name: "Sign in" });
     this.errorText = this.page.getByText(pageTexts.errorTextLoginPage);
+  }
+
+  async navigateToLoginPage() {
+    await this.page.goto("http://localhost:5173/#/login");
   }
 
   async checkUserNameField() {
@@ -36,7 +40,6 @@ export class  LoginPage {
   }
 
   async checkLoginForm() {
-    await this.page.goto("http://localhost:5173/#/login");
     await expect(this.userName).toBeVisible({
       timeout: 95000,
     });
@@ -49,7 +52,6 @@ export class  LoginPage {
   }
 
   async authorization(name, password) {
-    await this.page.goto("http://localhost:5173/#/login");
     await this.userName.fill(name);
     await this.password.fill(password);
     await this.signIn.click({

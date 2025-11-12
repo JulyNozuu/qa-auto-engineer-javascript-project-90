@@ -47,6 +47,10 @@ export class UserPage {
     this.noUser = this.page.getByText("No User yet.");
   }
 
+  async navigateToUserPage() {
+    await this.page.goto("http://localhost:5173/#/users");
+  }
+
   async checkUsers(page) {
     for (const user of users) {
       await expect(page.getByText(user.Email, { exact: true })).toBeVisible();

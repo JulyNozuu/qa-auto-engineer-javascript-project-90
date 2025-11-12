@@ -15,15 +15,18 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("application display", async () => {
+  await loginPage.navigateToLoginPage();
   await loginPage.checkLoginForm();
 });
 
 test("login", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await loginPage.checkWelcomeText(page);
 });
 
 test("negotive - login", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization("", "");
   await loginPage.checkErrorText(page);
   await loginPage.authorization("", pageTexts.password);
@@ -33,6 +36,7 @@ test("negotive - login", async ({ page }) => {
 });
 
 test("logout", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await loginPage.checkWelcomeText(page);
   await mainPage.goToProfile();
@@ -41,8 +45,9 @@ test("logout", async ({ page }) => {
 });
 
 test("create user", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await userPage.createUser(
     pageTexts.createUserEmail,
     pageTexts.createUserFirstName,
@@ -59,7 +64,7 @@ test("create user", async ({ page }) => {
     page
   );
   await userPage.checkEditButton();
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await userPage.checkUser(
     pageTexts.createUserEmail,
     pageTexts.createUserFirstName,
@@ -69,22 +74,25 @@ test("create user", async ({ page }) => {
 });
 
 test("user list", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await userPage.checkUsers(page);
 });
 
 test("editing form", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.checkUserCreateForm();
   await userPage.checkSaveDeleteButton();
 });
 
 test("edit user", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.editUser(
     pageTexts.editUserEmail,
@@ -101,8 +109,9 @@ test("edit user", async ({ page }) => {
 });
 
 test("edit user from create form", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await userPage.createUser(
     pageTexts.createUserEmail,
     pageTexts.createUserFirstName,
@@ -127,15 +136,17 @@ test("edit user from create form", async ({ page }) => {
 });
 
 test("negotive - edit user", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await page.getByRole("cell", { name: 1, exact: true }).click();
   await userPage.editUser("", "", "", "");
 });
 
 test("delete user", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await userPage.deleteUser(userPage.checkUser1);
   await userPage.cancelDeletUser();
   await expect(
@@ -161,8 +172,9 @@ test("delete user", async ({ page }) => {
 });
 
 test("delete all user", async () => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuUsers();
+  await userPage.navigateToUserPage();
   await userPage.checkAll.getByRole("checkbox").check();
   await expect(userPage.itemSelected).toBeVisible({
     timeout: 95000,

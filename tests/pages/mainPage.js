@@ -16,6 +16,10 @@ export class MainPage {
     this.menuTasks = this.page.getByRole("menuitem", { name: "Tasks" });
   }
 
+  async navigateToMainPage() {
+    await this.page.goto("http://localhost:5173/#/");
+  }
+
   async goToProfile() {
     await this.profile.click({
       timeout: 75000,

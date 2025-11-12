@@ -12,6 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("logout", async ({ page }) => {
+  await loginPage.navigateToLoginPage()
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
   await loginPage.checkWelcomeText(page);
   await mainPage.goToProfile();

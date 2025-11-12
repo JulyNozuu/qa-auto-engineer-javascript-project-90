@@ -30,6 +30,10 @@ export class TasksPage {
     });
   }
 
+  async navigateToTaskPage() {
+    await this.page.goto("http://localhost:5173/#/tasks");
+  }
+
   async checkTasksFromList(page) {
     for (const task of tasks) {
       await expect(page.getByRole("button", { name: task.name })).toBeVisible();

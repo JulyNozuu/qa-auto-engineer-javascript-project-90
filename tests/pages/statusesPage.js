@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 import pageTexts from "../__fixtures__/pageTexts";
 import taskStatuses from "../__fixtures__/taskStatuses";
 
-export class TaskStatatusesPage {
+export class StatatusesPage {
   constructor(page) {
     this.page = page;
     this.createStatusButton = this.page.getByLabel("Create", { exact: true });
@@ -30,6 +30,10 @@ export class TaskStatatusesPage {
     });
 
     this.noTaskStatus = this.page.getByText("No Task status yet.");
+  }
+
+  async navigateToStatusesPage() {
+    await this.page.goto("http://localhost:5173/#/task_statuses");
   }
 
   async checkStatuses(page) {

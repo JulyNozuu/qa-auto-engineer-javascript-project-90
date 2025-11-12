@@ -21,6 +21,10 @@ export class LabelsPage {
     this.noLabelsStatus = this.page.getByText("No Label yet.");
   }
 
+  async navigateToLabelPage() {
+    await this.page.goto("http://localhost:5173/#/labels");
+  }
+
   async checkLabels(page) {
     for (const label of labels) {
       await expect(page.getByText(label.Name, { exact: true })).toBeVisible();

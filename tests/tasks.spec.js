@@ -15,8 +15,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("create status item", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.clickCreateTasksButton();
   await tasksPage.checkFieldCreateTask();
   await tasksPage.createTask(
@@ -30,21 +31,24 @@ test("create status item", async ({ page }) => {
 });
 
 test("tasks list", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.checkTasksFromList(page);
 });
 
 test("editing form tasks", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.clickEditTasksButton(page, pageTexts.task1);
   await tasksPage.checkFieldCreateTask();
 });
 
 test("edit task", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.clickEditTasksButton(page, pageTexts.task1);
   await tasksPage.editTask(
     pageTexts.assigneeTask,
@@ -57,8 +61,9 @@ test("edit task", async ({ page }) => {
 });
 
 test("delete task", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.clickEditTasksButton(page, pageTexts.task1);
   await tasksPage.cancelDeleteTask(pageTexts.task1);
   await tasksPage.clickEditTasksButton(page, pageTexts.task1);
@@ -66,8 +71,9 @@ test("delete task", async ({ page }) => {
 });
 
 test("delete task from show", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.clickShowTasksButton(page, pageTexts.task1);
   await tasksPage.cancelDeleteTask(pageTexts.task1);
   await tasksPage.clickShowTasksButton(page, pageTexts.task1);
@@ -75,8 +81,9 @@ test("delete task from show", async ({ page }) => {
 });
 
 test("delete task from create", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.clickCreateTasksButton();
   await tasksPage.checkFieldCreateTask();
   await tasksPage.createTask(
@@ -91,8 +98,9 @@ test("delete task from create", async ({ page }) => {
 });
 
 test("filter task", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.filterAssignee.click({
     timeout: 75000,
   });
@@ -128,8 +136,9 @@ test("filter task", async ({ page }) => {
 });
 
 test("sort task", async ({ page }) => {
+  await loginPage.navigateToLoginPage();
   await loginPage.authorization(pageTexts.userName, pageTexts.password);
-  await mainPage.goToMenuTasks();
+  await tasksPage.navigateToTaskPage();
   await tasksPage.clickEditTasksButton(page, pageTexts.task1);
   await tasksPage.editTask(
     pageTexts.assigneeTask,
